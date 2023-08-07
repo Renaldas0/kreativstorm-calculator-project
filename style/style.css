@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Roboto&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: 'Borel', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #868686;
+}
+
+.calculator {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: minmax(120px, auto)repeat(5, 100px);
+}
+
+.span-two {
+    grid-column: span 2;
+}
+
+.calculator>button {
+    cursor: pointer;
+    font-size: 20px;
+    border: 2px solid #00a2ff;
+    background-color: rgba(202, 202, 202, 0.7);
+}
+
+.calculator->button:hover {
+    background-color: #fff;
+}
+
+.screen {
+    grid-column: 1 / -1;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.screen .previous-input {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 20px;
+}
+
+.screen .current-input {
+    color: #fff;
+    font-size: 26px;
+}
