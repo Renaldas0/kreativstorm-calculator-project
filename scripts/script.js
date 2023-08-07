@@ -6,14 +6,13 @@ const equalsBtn = document.querySelector('[data-equals]');
 const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
 
-const previousText = document.querySelector('[data-previous]');
-const currentText = document.querySelector('[data-current]');
+const input = document.querySelector('[data-input]');
 
 let currentInput = "";
 
 function displayValue(value) {
     currentInput += value;
-    currentText.textContent = currentInput;
+    input.textContent = currentInput;
 };
 
 numberBtns.forEach(button => {
@@ -25,15 +24,14 @@ numberBtns.forEach(button => {
 
 function clearDisplay() {
     currentInput = "";
-    previousText.textContent = '';
-    currentText.textContent = '';
+    input.textContent = '';
 };
 
 clearBtn.addEventListener('click', clearDisplay);
 
 function backspace() {
     currentInput = currentInput.slice(0, -1);
-    currentText.textContent = currentInput;
+    input.textContent = currentInput;
 };
 
 backspaceBtn.addEventListener('click', backspace);
