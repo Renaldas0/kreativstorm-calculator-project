@@ -18,9 +18,10 @@ function displayValue() {
     inputTop.textContent = currentInputTop;
 };
 
-function addNumber(value){
-    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length == "9") return;
-    if (currentInputTop=="Infinity, thas too much!" || currentInputBot=="Infinity, thas too much!"){
+function addNumber(value) {
+    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length == "9")
+        return;
+    if (currentInputTop == "Infinity, thas too much!" || currentInputBot == "Infinity, thas too much!") {
         currentInputTop = "";
         inputTop.textContent = '';
         currentInputBot = "";
@@ -30,9 +31,9 @@ function addNumber(value){
     currentInputBot += value;
 }
 
-function chooseOperator(operator){
+function chooseOperator(operator) {
     if (currentInputBot == '') return;
-    if (currentInputTop=="Infinity, thas too much!" || currentInputBot=="Infinity, thas too much!"){
+    if (currentInputTop == "Infinity, thas too much!" || currentInputBot == "Infinity, thas too much!") {
         currentInputTop = "";
         inputTop.textContent = '';
         currentInputBot = "";
@@ -45,12 +46,12 @@ function chooseOperator(operator){
     currentInputTop = currentInputBot;
     currentInputBot = "";
 }
- 
-function operation(operator){
+
+function operation(operator) {
     let numberTop = parseFloat(currentInputTop);
     let numberBot = parseFloat(currentInputBot);
     if (isNaN(numberTop) || isNaN(numberBot)) return;
-    switch (operator){
+    switch (operator) {
         case '+':
             result = numberTop + numberBot;
             break;
@@ -65,12 +66,12 @@ function operation(operator){
             break;
         default: return;
     }
-    if(result=="Infinity" || result=="-Infinity"){
+    if (result == "Infinity" || result == "-Infinity") {
         result = "Infinity, thas too much!";
-    } else if (isNaN(result)){
+    } else if (isNaN(result)) {
         result = "0";
     }
-   
+
     currentInputBot = result + "";
     operator = "";
     currentInputTop = "";
@@ -105,12 +106,29 @@ operatorBtns.forEach(button => {
 });
 
 equalsBtn.addEventListener("click", () => {
-        operation(operator);
-        displayValue();
-})
+    operation(operator);
+    displayValue();
+});
 
 clearBtn.addEventListener('click', clearDisplay);
 
 backspaceBtn.addEventListener('click', backspace);
 
 
+document.addEventListener("keypress", (event) => {
+    const key = event.key;
+
+    if (key === '=' || key === 'Enter') {
+        operation(currentOperator);
+    } else if (key === 'c' || key === 'C') {
+        clearDisplay();
+    } else if (key === 'Backspace') {
+        backspace();
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        chooseOperator(key);
+    } else if (/^\d$/.test(key)) {
+        addNumber(key);
+    }
+
+    displayValue();
+});
