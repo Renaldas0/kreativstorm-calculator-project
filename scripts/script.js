@@ -5,58 +5,112 @@ const backspaceBtn = document.querySelector('[data-backspace]');
 const equalsBtn = document.querySelector('[data-equals]');
 const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
+const inputTop = document.querySelector('[data-inputTop]');
+const inputBot = document.querySelector('[data-inputBot]');
 
-const input = document.querySelector('[data-input]');
+let currentInputTop = "";
+let currentInputBot = "";
+let operator = "";
+let result = 0;
 
-let currentInput = "";
+function displayValue() {
+    inputBot.textContent = currentInputBot;
+    inputTop.textContent = currentInputTop;
+};
 
-function displayValue(value) {
-    currentInput += value;
-    input.textContent = currentInput;
+function addNumber(value){
+    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length == "9") return;
+    if (currentInputTop=="Infinity, thas too much!" || currentInputBot=="Infinity, thas too much!"){
+        currentInputTop = "";
+        inputTop.textContent = '';
+        currentInputBot = "";
+        inputBot.textContent = '';
+        return;
+    }
+    currentInputBot += value;
+}
+
+function chooseOperator(operator){
+    if (currentInputBot == '') return;
+    if (currentInputTop=="Infinity, thas too much!" || currentInputBot=="Infinity, thas too much!"){
+        currentInputTop = "";
+        inputTop.textContent = '';
+        currentInputBot = "";
+        inputBot.textContent = '';
+        return;
+    }
+    if (currentInputTop != '') {
+        operation(operator);
+    }
+    currentInputTop = currentInputBot;
+    currentInputBot = "";
+}
+ 
+function operation(operator){
+    let numberTop = parseFloat(currentInputTop);
+    let numberBot = parseFloat(currentInputBot);
+    if (isNaN(numberTop) || isNaN(numberBot)) return;
+    switch (operator){
+        case '+':
+            result = numberTop + numberBot;
+            break;
+        case '-':
+            result = numberTop - numberBot;
+            break;
+        case '/':
+            result = numberTop / numberBot;
+            break;
+        case '*':
+            result = numberTop * numberBot;
+            break;
+        default: return;
+    }
+    if(result=="Infinity" || result=="-Infinity"){
+        result = "Infinity, thas too much!";
+    } else if (isNaN(result)){
+        result = "0";
+    }
+   
+    currentInputBot = result + "";
+    operator = "";
+    currentInputTop = "";
+}
+
+function clearDisplay() {
+    currentInputTop = "";
+    inputTop.textContent = '';
+    currentInputBot = "";
+    inputBot.textContent = '';
+};
+
+function backspace() {
+    currentInputBot = currentInputBot.slice(0, -1);
+    displayValue();
 };
 
 numberBtns.forEach(button => {
     button.addEventListener("click", () => {
         const value = button.value;
-        displayValue(value);
+        addNumber(value);
+        displayValue();
     });
 });
 
-function clearDisplay() {
-    currentInput = "";
-    input.textContent = '';
-};
+operatorBtns.forEach(button => {
+    button.addEventListener("click", () => {
+        operator = button.value;
+        chooseOperator(operator);
+        displayValue();
+    });
+});
+
+equalsBtn.addEventListener("click", () => {
+        operation(operator);
+        displayValue();
+})
 
 clearBtn.addEventListener('click', clearDisplay);
 
-function backspace() {
-    currentInput = currentInput.slice(0, -1);
-    input.textContent = currentInput;
-};
-
 backspaceBtn.addEventListener('click', backspace);
 
-function add(num1, num2) {
-    let sum = num1 + num2;
-    return sum;
-};
 
-function subtract(num1, num2) {
-    let sum = num1 - num2;
-    return sum;
-};
-
-function multiply(num1, num2) {
-    let sum = num1 * num2;
-    return sum;
-};
-
-function divide(num1, num2) {
-    let sum = num1 / num2;
-    return sum;
-};
-
-console.log(add(1, 2));
-console.log(subtract(1, 2));
-console.log(multiply(1, 2));
-console.log(divide(1, 2));
