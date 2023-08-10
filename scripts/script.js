@@ -27,9 +27,9 @@ function addNumber(value) {
         currentInputBot = "";
         inputBot.textContent = '';
         return;
-    }
+    };
     currentInputBot += value;
-}
+};
 
 function chooseOperator(operator) {
     if (currentInputBot == '') return;
@@ -39,13 +39,13 @@ function chooseOperator(operator) {
         currentInputBot = "";
         inputBot.textContent = '';
         return;
-    }
+    };
     if (currentInputTop != '') {
         operation(operator);
-    }
+    };
     currentInputTop = currentInputBot;
     currentInputBot = "";
-}
+};
 
 function operation(operator) {
     let numberTop = parseFloat(currentInputTop);
@@ -116,7 +116,6 @@ clearBtn.addEventListener('click', clearDisplay);
 
 backspaceBtn.addEventListener('click', backspace);
 
-
 document.addEventListener("keydown", (event) => {
     const key = event.key;
 
@@ -130,7 +129,6 @@ document.addEventListener("keydown", (event) => {
         chooseOperator(key);
     } else if (/^\d$/.test(key)) {
         addNumber(key);
-    }
-
+    };
     displayValue();
 });

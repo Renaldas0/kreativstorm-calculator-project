@@ -37,11 +37,18 @@ body {
     border: 2px solid #00a2ff;
     border-radius: 10px;
     margin: 3px;
-    background-color: rgba(202, 202, 202, 0.7);
+}
+
+.operator {
+    background-color: #ff9d00;
 }
 
 .calculator>button:hover {
     background-color: #fff;
+}
+
+.calculator .operator:hover {
+    background-color: #ffbf00;
 }
 
 .screen {
@@ -66,4 +73,10 @@ body {
 .screen .inputTop {
     color: #fff;
     font-size: 16px;
+}
+
+@media screen and (max-width: 480px) {
+    .calculator {
+        grid-template-columns: repeat(4, 80px);
+    }
 }
