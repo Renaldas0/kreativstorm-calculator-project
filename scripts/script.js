@@ -105,21 +105,23 @@ operatorBtns.forEach(button => {
     });
 });
 
-equalsBtn.addEventListener("click", () => {
+function calculateAnswer() {
     operation(operator);
     displayValue();
-});
+}
+
+equalsBtn.addEventListener("click", calculateAnswer);
 
 clearBtn.addEventListener('click', clearDisplay);
 
 backspaceBtn.addEventListener('click', backspace);
 
 
-document.addEventListener("keypress", (event) => {
+document.addEventListener("keydown", (event) => {
     const key = event.key;
 
     if (key === '=' || key === 'Enter') {
-        operation(currentOperator);
+        calculateAnswer();
     } else if (key === 'c' || key === 'C') {
         clearDisplay();
     } else if (key === 'Backspace') {
