@@ -11,7 +11,7 @@
 body {
     display: flex;
     justify-content: center;
-    background-color: #868686;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/calc-background.jpg') no-repeat center fixed;
 }
 
 .calculator {
@@ -40,7 +40,7 @@ body {
     background-color: rgba(202, 202, 202, 0.7);
 }
 
-.calculator->button:hover {
+.calculator>button:hover {
     background-color: #fff;
 }
 
