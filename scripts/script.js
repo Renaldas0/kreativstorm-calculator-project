@@ -43,7 +43,7 @@ function chooseOperator(chosenOperator) {
         operation();
     }
     operator = chosenOperator;
-    currentInputTop = currentInputBot;
+    currentInputTop = `${currentInputBot} ${operator}`;
     currentInputBot = '';
 };
 
