@@ -8,9 +8,9 @@ const operatorBtns = document.querySelectorAll('[data-operator]');
 const inputTop = document.querySelector('[data-inputTop]');
 const inputBot = document.querySelector('[data-inputBot]');
 
-let currentInputTop = "";
-let currentInputBot = "";
-let operator = "";
+let currentInputTop = '';
+let currentInputBot = '';
+let operator = '';
 let result = 0;
 
 function displayValue() {
@@ -19,38 +19,41 @@ function displayValue() {
 };
 
 function addNumber(value) {
-    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length == "9")
+    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 9) {
         return;
-    if (currentInputTop == "Infinity, thas too much!" || currentInputBot == "Infinity, thas too much!") {
-        currentInputTop = "";
-        inputTop.textContent = '';
-        currentInputBot = "";
-        inputBot.textContent = '';
+    }
+
+    if (currentInputTop == "Infinity, that's too much!" || currentInputBot == "Infinity, that's too much!") {
+        clearDisplay();
         return;
     };
     currentInputBot += value;
+    displayValue();
 };
 
-function chooseOperator(operator) {
-    if (currentInputBot == '') return;
-    if (currentInputTop == "Infinity, thas too much!" || currentInputBot == "Infinity, thas too much!") {
-        currentInputTop = "";
-        inputTop.textContent = '';
-        currentInputBot = "";
-        inputBot.textContent = '';
+function chooseOperator(chosenOperator) {
+    if (currentInputBot === '') {
         return;
-    };
-    if (currentInputTop != '') {
-        operation(operator);
-    };
+    }
+    if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
+        clearDisplay();
+        return;
+    }
+    if (currentInputTop !== '') {
+        operation();
+    }
+    operator = chosenOperator;
     currentInputTop = currentInputBot;
-    currentInputBot = "";
+    currentInputBot = '';
 };
 
-function operation(operator) {
-    let numberTop = parseFloat(currentInputTop);
-    let numberBot = parseFloat(currentInputBot);
-    if (isNaN(numberTop) || isNaN(numberBot)) return;
+function operation() {
+    const numberTop = parseFloat(currentInputTop);
+    const numberBot = parseFloat(currentInputBot);
+    if (isNaN(numberTop) || isNaN(numberBot)) {
+        return;
+    }
+
     switch (operator) {
         case '+':
             result = numberTop + numberBot;
@@ -64,24 +67,26 @@ function operation(operator) {
         case '*':
             result = numberTop * numberBot;
             break;
-        default: return;
-    }
-    if (result == "Infinity" || result == "-Infinity") {
-        result = "Infinity, thas too much!";
-    } else if (isNaN(result)) {
-        result = "0";
+        default:
+            return;
     }
 
-    currentInputBot = result + "";
-    operator = "";
-    currentInputTop = "";
+    if (!isFinite(result)) {
+        result = "Infinity, that's too much!";
+    } else if (isNaN(result)) {
+        result = '0';
+    }
+
+    currentInputBot = result.toString();
+    operator = '';
+    currentInputTop = '';
+    displayValue();
 }
 
 function clearDisplay() {
-    currentInputTop = "";
-    inputTop.textContent = '';
+    currentInputTop = '';
     currentInputBot = "";
-    inputBot.textContent = '';
+    displayValue();
 };
 
 function backspace() {
@@ -93,7 +98,6 @@ numberBtns.forEach(button => {
     button.addEventListener("click", () => {
         const value = button.value;
         addNumber(value);
-        displayValue();
     });
 });
 
@@ -101,14 +105,12 @@ operatorBtns.forEach(button => {
     button.addEventListener("click", () => {
         operator = button.value;
         chooseOperator(operator);
-        displayValue();
     });
 });
 
 function calculateAnswer() {
-    operation(operator);
-    displayValue();
-}
+    operation();
+};
 
 equalsBtn.addEventListener("click", calculateAnswer);
 
@@ -116,7 +118,7 @@ clearBtn.addEventListener('click', clearDisplay);
 
 backspaceBtn.addEventListener('click', backspace);
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", event => {
     const key = event.key;
 
     if (key === '=' || key === 'Enter') {
@@ -130,5 +132,4 @@ document.addEventListener("keydown", (event) => {
     } else if (/^\d$/.test(key)) {
         addNumber(key);
     };
-    displayValue();
 });
