@@ -25,7 +25,7 @@ function addNumber(value) {
     if (currentInputBot < 1 && value === '0' && currentInputBot.includes('0')) {
         return;
     }
-    if (currentInputTop == "Infinity, that's too much!" || currentInputBot == "Infinity, that's too much!") {
+    if (currentInputTop == "Cannot divide by 0" || currentInputBot == "Cannot divide by 0") {
         clearDisplay();
         return;
     };
@@ -95,6 +95,13 @@ function clearDisplay() {
 };
 
 function backspace() {
+    if ((currentInputTop.includes("+") || currentInputTop.includes("-") || currentInputTop.includes("/") || currentInputTop.includes("*")) && currentInputBot == ""){
+        operator == "";
+        currentInputBot = currentInputTop;
+        currentInputTop = "";
+        currentInputBot = currentInputBot.slice(0, -1);
+        currentInputBot = currentInputBot.slice(0, -1);
+    }
     currentInputBot = currentInputBot.slice(0, -1);
     displayValue();
 };
