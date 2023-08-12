@@ -25,8 +25,6 @@ function addNumber(value) {
     if (currentInputBot < 1 && value === '0' && currentInputBot.includes('0')) {
         return;
     }
-
-
     if (currentInputTop == "Infinity, that's too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
         return;
@@ -38,7 +36,7 @@ function addNumber(value) {
 function chooseOperator(chosenOperator) {
     if (currentInputBot === '') {
         return;
-    } else if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
+    } else if (currentInputTop == "Cannot divide by 0" || currentInputBot == "Cannot divide by 0") {
         clearDisplay();
         return;
     } else if (currentInputTop !== '') {
@@ -48,7 +46,6 @@ function chooseOperator(chosenOperator) {
         currentInputTop = `${currentInputBot}  ${operator}`;
         currentInputBot = '';
     }
-
 };
 
 function operation() {
@@ -66,7 +63,11 @@ function operation() {
             result = numberTop - numberBot;
             break;
         case '/':
-            result = numberTop / numberBot;
+            if (numberBot === 0) {
+                result = "Cannot divide by 0"
+            } else {
+                result = numberTop / numberBot;
+            }
             break;
         case '*':
             result = numberTop * numberBot;
@@ -76,18 +77,16 @@ function operation() {
     }
 
     if (!isFinite(result)) {
-        result = "Infinity, that's too much!";
+        result = "Cannot divide by 0";
     } else if (isNaN(result)) {
         result = '0';
-    } else if (result % 1 != 0) {
-        result = result.toFixed(3);
     }
 
     currentInputBot = result.toString();
     operator = '';
     currentInputTop = '';
     displayValue();
-}
+};
 
 function clearDisplay() {
     currentInputTop = '';
@@ -109,6 +108,7 @@ numberBtns.forEach(button => {
 
 operatorBtns.forEach(button => {
     button.addEventListener("click", () => {
+        operation();
         operator = button.value;
         chooseOperator(operator);
     });
@@ -130,6 +130,8 @@ document.addEventListener("keydown", event => {
     } else if (key === 'Backspace') {
         backspace();
     } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        operation();
+        operator = key;
         chooseOperator(key);
     } else if (/^\d$/.test(key) || key == ".") {
         addNumber(key);
