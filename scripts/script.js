@@ -62,8 +62,12 @@ function operation() {
             result = numberTop - numberBot;
             break;
         case '/':
-            result = numberTop / numberBot;
-            break;
+            if (numberBot === 0) {
+                result = "Cannot divide by 0"
+            } else {
+                result = numberTop / numberBot;
+                break;
+            }
         case '*':
             result = numberTop * numberBot;
             break;
@@ -90,7 +94,12 @@ function clearDisplay() {
 };
 
 function backspace() {
-    currentInputBot = currentInputBot.slice(0, -1);
+    if (currentInputBot.length > 0) {
+        currentInputBot = currentInputBot.slice(0, -1);
+    } else if (currentInputTop.length > 0) {
+        currentInputTop = currentInputTop.slice(0, -2);
+        operator = '';
+    }
     displayValue();
 };
 
@@ -129,4 +138,3 @@ document.addEventListener("keydown", event => {
         addNumber(key);
     };
 });
-
