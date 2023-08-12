@@ -32,7 +32,9 @@ function addNumber(value) {
 };
 
 function chooseOperator(chosenOperator) {
-    if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
+    if (currentInputBot === '') {
+        return;
+    } else if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
         return;
     } else if (currentInputTop !== '') {
@@ -60,12 +62,8 @@ function operation() {
             result = numberTop - numberBot;
             break;
         case '/':
-            if (numberBot === 0) {
-                result = "Cannot divide by 0"
-            } else {
-                result = numberTop / numberBot;
-                break;
-            }
+            result = numberTop / numberBot;
+            break;
         case '*':
             result = numberTop * numberBot;
             break;
@@ -77,11 +75,10 @@ function operation() {
         result = "Infinity, that's too much!";
     } else if (isNaN(result)) {
         result = '0';
-    }
-    if (result % 1 != 0){
+    }if (result % 1 != 0){
         result = result.toFixed(3);
     }
-    
+
     currentInputBot = result.toString();
     operator = '';
     currentInputTop = '';
@@ -95,12 +92,7 @@ function clearDisplay() {
 };
 
 function backspace() {
-    if (currentInputBot.length > 0) {
-        currentInputBot = currentInputBot.slice(0, -1);
-    } else if (currentInputTop.length > 0) {
-        currentInputTop = currentInputTop.slice(0, -2);
-        operator = '';
-    }
+    currentInputBot = currentInputBot.slice(0, -1);
     displayValue();
 };
 
@@ -139,3 +131,4 @@ document.addEventListener("keydown", event => {
         addNumber(key);
     };
 });
+
