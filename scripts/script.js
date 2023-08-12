@@ -75,7 +75,7 @@ function operation() {
         result = "Infinity, that's too much!";
     } else if (isNaN(result)) {
         result = '0';
-    }if (result % 1 != 0){
+    } else if (result % 1 != 0){
         result = result.toFixed(3);
     }
 
