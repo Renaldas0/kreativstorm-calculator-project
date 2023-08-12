@@ -32,9 +32,7 @@ function addNumber(value) {
 };
 
 function chooseOperator(chosenOperator) {
-    if (currentInputBot === '') {
-        return;
-    } else if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
+    if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
         return;
     } else if (currentInputTop !== '') {
@@ -80,7 +78,10 @@ function operation() {
     } else if (isNaN(result)) {
         result = '0';
     }
-    result = result.toFixed(3);
+    if (result % 1 != 0){
+        result = result.toFixed(3);
+    }
+    
     currentInputBot = result.toString();
     operator = '';
     currentInputTop = '';
