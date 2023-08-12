@@ -1,92 +1,55 @@
 'use strict';
 
-// Selectors
 const clearBtn = document.querySelector('[data-clear]');
 const backspaceBtn = document.querySelector('[data-backspace]');
 const equalsBtn = document.querySelector('[data-equals]');
 const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
-const decimalBtn = document.querySelector('[data-number][value="."]');
 const inputTop = document.querySelector('[data-inputTop]');
 const inputBot = document.querySelector('[data-inputBot]');
 
-// State
 let currentInputTop = '';
 let currentInputBot = '';
 let operator = '';
 let result = 0;
 
-// Display update
-function updateDisplay() {
+function displayValue() {
     inputBot.textContent = currentInputBot;
     inputTop.textContent = currentInputTop;
-}
+};
 
-// Clear the display
-function clearDisplay() {
-    currentInputTop = '';
-    currentInputBot = '';
-    operator = '';
-    result = 0;
-    updateDisplay();
-}
-
-// Add a number to the input
 function addNumber(value) {
-    if (currentInputTop !== '' && operator === '') {
-        clearDisplay();
-    }
-
     if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 9) {
         return;
     }
 
+    if (currentInputTop == "Infinity, that's too much!" || currentInputBot == "Infinity, that's too much!") {
+        clearDisplay();
+        return;
+    };
     currentInputBot += value;
-    updateDisplay();
-}
+    displayValue();
+};
 
-// Add decimal point
-function addDecimal() {
-    if (currentInputTop !== '' && operator === '') {
-        clearDisplay();
-    }
-
-    if (!currentInputBot.includes('.')) {
-        currentInputBot += '.';
-        updateDisplay();
-    }
-}
-
-// Choose an operator
 function chooseOperator(chosenOperator) {
-    if (currentInputBot === '' && result === 0) {
+    if (currentInputBot === '') {
         return;
     }
-
-    if (currentInputTop.includes("Infinity")) {
+    if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
         return;
     }
-
-    if (operator !== '' && currentInputTop !== '') {
+    if (currentInputTop !== '') {
         operation();
     }
-
     operator = chosenOperator;
-    if (currentInputTop === '') {
-        currentInputTop = currentInputBot + ` ${operator}`;
-        currentInputBot = '';
-    } else {
-        currentInputTop = currentInputBot + ` ${operator}`;
-    }
-    updateDisplay();
-}
+    currentInputTop = `${currentInputBot}  ${operator}`;
+    currentInputBot = '';
+};
 
-// Perform the operation
 function operation() {
     const numberTop = parseFloat(currentInputTop);
     const numberBot = parseFloat(currentInputBot);
-
     if (isNaN(numberTop) || isNaN(numberBot)) {
         return;
     }
@@ -117,33 +80,20 @@ function operation() {
     currentInputBot = result.toString();
     operator = '';
     currentInputTop = '';
-    updateDisplay();
+    displayValue();
 }
 
-// Handle backspace
-function handleBackspace() {
+function clearDisplay() {
+    currentInputTop = '';
+    currentInputBot = "";
+    displayValue();
+};
+
+function backspace() {
     currentInputBot = currentInputBot.slice(0, -1);
-    updateDisplay();
-}
+    displayValue();
+};
 
-// Handle keyboard input
-function handleKeyboardInput(event) {
-    const key = event.key;
-
-    if (key === '=' || key === 'Enter') {
-        operation();
-    } else if (key === 'c' || key === 'C') {
-        clearDisplay();
-    } else if (key === 'Backspace') {
-        handleBackspace();
-    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
-        chooseOperator(key);
-    } else if (/^\d$/.test(key) || key === ".") {
-        addNumber(key);
-    }
-}
-
-// Attach event listeners
 numberBtns.forEach(button => {
     button.addEventListener("click", () => {
         const value = button.value;
@@ -158,11 +108,24 @@ operatorBtns.forEach(button => {
     });
 });
 
-decimalBtn.addEventListener("click", () => {
-    addDecimal();
-});
-
 equalsBtn.addEventListener("click", operation);
+
 clearBtn.addEventListener('click', clearDisplay);
-backspaceBtn.addEventListener('click', handleBackspace);
-document.addEventListener("keydown", handleKeyboardInput);
+
+backspaceBtn.addEventListener('click', backspace);
+
+document.addEventListener("keydown", event => {
+    const key = event.key;
+
+    if (key === '=' || key === 'Enter') {
+        operation();
+    } else if (key === 'c' || key === 'C') {
+        clearDisplay();
+    } else if (key === 'Backspace') {
+        backspace();
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        chooseOperator(key);
+    } else if (/^\d$/.test(key) || key == ".") {
+        addNumber(key);
+    };
+});
