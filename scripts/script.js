@@ -108,11 +108,7 @@ operatorBtns.forEach(button => {
     });
 });
 
-function calculateAnswer() {
-    operation();
-};
-
-equalsBtn.addEventListener("click", calculateAnswer);
+equalsBtn.addEventListener("click", operation);
 
 clearBtn.addEventListener('click', clearDisplay);
 
@@ -122,7 +118,7 @@ document.addEventListener("keydown", event => {
     const key = event.key;
 
     if (key === '=' || key === 'Enter') {
-        calculateAnswer();
+        operation();
     } else if (key === 'c' || key === 'C') {
         clearDisplay();
     } else if (key === 'Backspace') {
