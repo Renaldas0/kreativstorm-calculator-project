@@ -22,7 +22,7 @@ function addNumber(value) {
     if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 15) {
         return;
     }
-    if (currentInputBot < 1 && value === '0' && currentInputBot.includes('0')) {
+    if (currentInputBot === '0' && value === '0' && currentInputBot.includes('0')) {
         return;
     }
     if (currentInputTop == "Cannot divide by 0" || currentInputBot == "Cannot divide by 0") {
@@ -96,7 +96,7 @@ function clearDisplay() {
 };
 
 function backspace() {
-    if ((currentInputTop.includes("+") || currentInputTop.includes("-") || currentInputTop.includes("/") || currentInputTop.includes("*")) && currentInputBot == ""){
+    if ((currentInputTop.includes("+") || currentInputTop.includes("-") || currentInputTop.includes("/") || currentInputTop.includes("*")) && currentInputBot == "") {
         operator == "";
         currentInputBot = currentInputTop;
         currentInputTop = "";
@@ -145,4 +145,3 @@ document.addEventListener("keydown", event => {
         addNumber(key);
     };
 });
-
