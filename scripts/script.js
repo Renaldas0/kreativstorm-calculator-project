@@ -45,6 +45,7 @@ function chooseOperator(chosenOperator) {
         operator = chosenOperator;
         currentInputTop = `${currentInputBot}  ${operator}`;
         currentInputBot = '';
+        displayValue();
     }
 };
 
