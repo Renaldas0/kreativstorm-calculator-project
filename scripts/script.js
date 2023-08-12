@@ -80,7 +80,7 @@ function operation() {
     } else if (isNaN(result)) {
         result = '0';
     }
-
+    result = result.toFixed(3);
     currentInputBot = result.toString();
     operator = '';
     currentInputTop = '';
