@@ -19,7 +19,7 @@ function displayValue() {
 };
 
 function addNumber(value) {
-    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 9) {
+    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 15) {
         return;
     }
 
@@ -34,17 +34,17 @@ function addNumber(value) {
 function chooseOperator(chosenOperator) {
     if (currentInputBot === '') {
         return;
-    }
-    if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
+    } else if (currentInputTop == "Infinity, thats too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
         return;
-    }
-    if (currentInputTop !== '') {
+    } else if (currentInputTop !== '') {
         operation();
+    } else {
+        operator = chosenOperator;
+        currentInputTop = `${currentInputBot}  ${operator}`;
+        currentInputBot = '';
     }
-    operator = chosenOperator;
-    currentInputTop = `${currentInputBot}  ${operator}`;
-    currentInputBot = '';
+
 };
 
 function operation() {
@@ -129,3 +129,4 @@ document.addEventListener("keydown", event => {
         addNumber(key);
     };
 });
+
