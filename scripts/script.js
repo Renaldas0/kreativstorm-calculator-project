@@ -129,7 +129,7 @@ document.addEventListener("keydown", event => {
         backspace();
     } else if (key === '+' || key === '-' || key === '*' || key === '/') {
         chooseOperator(key);
-    } else if (/^\d$/.test(key)) {
+    } else if (/^\d$/.test(key) || key == ".") {
         addNumber(key);
     };
 });
