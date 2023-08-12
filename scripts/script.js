@@ -22,6 +22,10 @@ function addNumber(value) {
     if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 15) {
         return;
     }
+    if (currentInputBot < 1 && value === '0' && currentInputBot.includes('0')) {
+        return;
+    }
+
 
     if (currentInputTop == "Infinity, that's too much!" || currentInputBot == "Infinity, that's too much!") {
         clearDisplay();
@@ -75,7 +79,7 @@ function operation() {
         result = "Infinity, that's too much!";
     } else if (isNaN(result)) {
         result = '0';
-    } else if (result % 1 != 0){
+    } else if (result % 1 != 0) {
         result = result.toFixed(3);
     }
 
