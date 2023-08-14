@@ -19,7 +19,7 @@ function displayValue() {
 };
 
 function addNumber(value) {
-    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 15) {
+    if ((value === '.' && currentInputBot.includes('.')) || currentInputBot.length === 12) {
         return;
     }
     if (currentInputBot === '0' && value === '0' && currentInputBot.includes('0')) {
@@ -28,10 +28,23 @@ function addNumber(value) {
     if (currentInputTop == "Cannot divide by 0" || currentInputBot == "Cannot divide by 0") {
         clearDisplay();
         return;
-    };
-    currentInputBot += value;
+    }
+
+    if (value === '.') {
+        if (currentInputBot.includes('.')) {
+            return;
+        }
+        currentInputBot += value;
+    } else {
+        const decimalIndex = currentInputBot.indexOf('.');
+        if (decimalIndex !== -1 && currentInputBot.length - decimalIndex > 3) {
+            return;
+        }
+        currentInputBot += value;
+    }
+
     displayValue();
-};
+}
 
 function chooseOperator(chosenOperator) {
     if (currentInputBot === '') {
@@ -81,6 +94,10 @@ function operation() {
         result = "Cannot divide by 0";
     } else if (isNaN(result)) {
         result = '0';
+    }
+
+    if (result % 1 !== 0) {
+        result = result.toFixed(3);
     }
 
     currentInputBot = result.toString();
